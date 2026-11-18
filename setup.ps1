@@ -117,9 +117,8 @@ Step "mobile-mcp $MobileMcpVersion"
 npm install -g "@mobilenext/mobile-mcp@$MobileMcpVersion"
 $entry = Join-Path (npm root -g) '@mobilenext\mobile-mcp\lib\index.js'
 $sdkFwd = $SdkRoot -replace '\\', '/'
-# MOBILEMCP_LEGACY_ROBOT=1: the bundled mobilecli does not find local emulators on Windows; this talks to adb directly.
 $addArgs = @('mcp', 'add', '--scope', 'user', 'mobile-mcp',
-  '-e', "ANDROID_HOME=$sdkFwd", '-e', 'MOBILEMCP_LEGACY_ROBOT=1', '-e', 'MOBILEMCP_DISABLE_TELEMETRY=1',
+  '-e', "ANDROID_HOME=$sdkFwd", '-e', 'MOBILEMCP_DISABLE_TELEMETRY=1',
   '--', 'node', $entry)
 if (Get-Command claude -ErrorAction SilentlyContinue) {
   $ErrorActionPreference = 'Continue'

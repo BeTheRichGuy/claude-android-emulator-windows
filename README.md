@@ -53,11 +53,14 @@ Sign in to Google and to any app yourself in the emulator window. Do not give pa
 | The emulator fails on paths with non-ASCII characters (for example a Korean or Japanese user name under `C:\Users`) | Keeps the SDK and virtual devices under `C:\Android` and refuses non-ASCII paths |
 | `winget install` of a JDK waits silently on a UAC prompt | Uses the JDK zip build in the user folder |
 | `avdmanager` creates the device with Play Store off, 2 GB RAM and `disk.dataPartition.path=<temp>`, so app logins can disappear | Rewrites those lines in `config.ini` |
-| mobile-mcp 1.0.17's bundled `mobilecli` (1.0.23) lists no local emulators on Windows even when `adb devices` shows them | Sets `MOBILEMCP_LEGACY_ROBOT=1` so mobile-mcp talks to adb directly |
 | `avdmanager` prints `Error: Could not load devices from ...\devices.xml` | Harmless; the device is still created (the script checks for `config.ini`) |
 | A first adb connection can leave an "Allow USB debugging?" prompt on the phone | Tick "Always allow from this computer" and tap Allow once |
 
 mobile-mcp sends usage telemetry by default; the script turns it off with `MOBILEMCP_DISABLE_TELEMETRY=1`.
+
+## Troubleshooting
+
+- **Claude sees no device right after the first boot.** Accept the "Allow USB debugging?" prompt on the phone, run `adb devices` and check the emulator shows `device` (not `unauthorized`), then start a new Claude Code session. If the list is still empty while `adb devices` shows the emulator, re-register mobile-mcp with `-e MOBILEMCP_LEGACY_ROBOT=1` added; that mode talks to adb directly instead of through the bundled `mobilecli`.
 
 ## Notes
 
@@ -72,4 +75,4 @@ MIT for the files in this repo. The Android SDK, mobile-mcp and mobilecli keep t
 
 ## 한국어 요약
 
-Windows에서 구글 안드로이드 에뮬레이터를 깔고, mobile-mcp로 Claude Code에 연결하는 설치 스크립트입니다. 에뮬레이터를 새로 만든 것이 아니라 공식 도구를 받아 설정하고, 한글 사용자 경로 문제와 mobilecli가 에뮬레이터를 못 찾는 문제를 피해 갑니다. `setup.ps1`을 실행한 뒤 `start-emulator.cmd`로 켜고, 새 Claude Code 세션에서 쓰면 됩니다. 구글·앱 로그인은 직접 하세요.
+Windows에서 구글 안드로이드 에뮬레이터를 깔고, mobile-mcp로 Claude Code에 연결하는 설치 스크립트입니다. 에뮬레이터를 새로 만든 것이 아니라 공식 도구를 받아 설정하고, 한글 사용자 경로 문제와 가상 휴대폰 기본 설정 문제를 피해 갑니다. `setup.ps1`을 실행한 뒤 `start-emulator.cmd`로 켜고, 새 Claude Code 세션에서 쓰면 됩니다. 구글·앱 로그인은 직접 하세요.
